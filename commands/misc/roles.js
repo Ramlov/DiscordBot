@@ -1,6 +1,5 @@
 const {EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder} = require('discord.js');
 
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('roles')
@@ -30,3 +29,4 @@ module.exports = {
         await interaction.reply({content: null, embeds: [roleEmbed] , components: [row]})
     }
 };
+
