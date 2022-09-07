@@ -41,6 +41,7 @@ module.exports = {
         const roleEmbed = new EmbedBuilder()
         .setTitle('Vælg din rolle her')
         .setColor("Random")
+        .setImage('https://i.imgur.com/9hJIps5.png')
         await interaction.reply({content: null, embeds: [roleEmbed] , components: [row]})
         client.on('interactionCreate', async (interaction, guild) => {
             if(!interaction.isSelectMenu()) {
