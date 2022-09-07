@@ -3,6 +3,7 @@ const fs = require("fs");
 const { Client, GatewayIntentBits, Partials, Collection, ActivityType} = require('discord.js');
 const { ReactionRole } = require("discordjs-reaction-role");
 
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -39,3 +40,6 @@ const rr = new ReactionRole(client, [
     { messageId: "1016368454883881100", reaction: "4️⃣", roleId: "1015914502748905472" },
     { messageId: "1016368454883881100", reaction: "5️⃣", roleId: "1015914525859528764" },
   ]);
+
+
+  
