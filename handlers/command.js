@@ -32,7 +32,7 @@ module.exports = async (client, forDeploy) => {
                     Routes.applicationCommands(clientId),
                     { body: arrayCommands }
                 )
-                console.log(arrayCommands)
+                //console.log(arrayCommands)
             } catch (err) {
                 console.error(err)
             }
