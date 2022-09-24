@@ -12,12 +12,12 @@ module.exports = async (client, forDeploy) => {
 
     for (const folder of fs.readdirSync('./commands')) {
         const slashCommandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
-        logger('Load', `Loading `+ chalk.underline.white(folder) +` slash commands...\n`)
+        //logger('Load', `Loading `+ chalk.underline.white(folder) +` slash commands...\n`)
 
         for (const file of slashCommandFiles) {
             const command = require(`../commands/${folder}/${file}`);
 
-            logger('Command', chalk.white(file) + ` slash command er loaded!`)
+            //logger('Command', chalk.white(file) + ` slash command er loaded!`)
 
 
             if (!forDeploy) client.slashCommands.set(command.data.name, command)
