@@ -1,5 +1,5 @@
 const {EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
-
+const roles = ["1009429123212517486", "1009429158104924172", "1015914476505141258", "1015914502748905472", "1015914525859528764"]
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('roles')
@@ -14,27 +14,27 @@ module.exports = {
                     {
                         label: 'Gruppe 1',
                         description: 'Gruppe for gruppe 131',
-                        value: '1009429123212517486',
+                        value: roles[0],
                     },
                     {
                         label: 'Gruppe 2',
                         description: 'Gruppe for gruppe 132',
-                        value: '1009429158104924172',
+                        value: roles[1],
                     },
                     {
                         label: 'Gruppe 3',
                         description: 'Gruppe for gruppe 133',
-                        value: '1015914476505141258',
+                        value: roles[2],
                     },
                     {
                         label: 'Gruppe 4',
                         description: 'Gruppe for gruppe 134',
-                        value: '1015914502748905472',
+                        value: roles[3],
                     },
                     {
                         label: 'Gruppe 5',
                         description: 'Gruppe for gruppe 135',
-                        value: '1015914525859528764',
+                        value: roles[4],
                     },
                 ),
         );
@@ -51,7 +51,9 @@ module.exports = {
           const { customId, values} = interaction
           
             if(customId === 'select'){
-                await interaction.member.roles.add(interaction.values[0])
+                if (interaction.member.roles.cache.has(interaction.values[0])) {
+                        await interaction.member.roles.remove(interaction.values[0])
+                } else await interaction.member.roles.add(interaction.values[0])
             }
           
             interaction.reply({
