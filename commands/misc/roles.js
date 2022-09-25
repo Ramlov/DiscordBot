@@ -1,4 +1,5 @@
 const {EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
+const interactionCreate = require('../../events/interactionCreate');
 const roles = ["1009429123212517486", "1009429158104924172", "1015914476505141258", "1015914502748905472", "1015914525859528764"]
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,6 +11,8 @@ module.exports = {
             new SelectMenuBuilder()
                 .setCustomId('select')
                 .setPlaceholder('Ingen gruppe valgt')
+                .setMinValues(0)
+                .setMaxValues(1)
                 .addOptions(
                     {
                         label: 'Gruppe 1',
@@ -46,21 +49,29 @@ module.exports = {
         client.on('interactionCreate', async (interaction, guild) => {
             if(!interaction.isSelectMenu()) {
               return;      
-            }
-          
-          const { customId, values} = interaction
-          
+            }                   
+            const { customId, values} = interaction
             if(customId === 'select'){
-                if (interaction.member.roles.cache.has(interaction.values[0])) {
-                        await interaction.member.roles.remove(interaction.values[0])
-                } else await interaction.member.roles.add(interaction.values[0])
+                if (values.length == 0){
+                    interaction.reply({
+                        content: 'Du kan nu interagere med valgmenuen igen!',
+                        ephemeral: true
+                      })
+                    return;
+                    
+                }
+                content = ' '
+                for(let i = 0; i < roles.length; i++){
+                    await interaction.member.roles.remove(roles[i])
+                }
+                await interaction.member.roles.add(values[0])
+                content = 'Du har nu fået <@&'+values[0]+'>'
+                interaction.reply({
+                    content: content,
+                    ephemeral: true
+                  })
             }
-          
-            interaction.reply({
-              content: 'Roles update!',
-              ephemeral: true
-            })
-          })
+        })
     }
     }
 
