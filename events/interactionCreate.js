@@ -13,7 +13,6 @@ module.exports = {
 
             try {
                 await command.slashRun(client, interaction);
-                //logger('Command ran', `\nCommand: ${command.data.name}\nUser: ${interaction.user.tag}\nGuild: ${interaction.guild ? interaction.guild.name : 'None'}\n`)
             } catch (error) {
                 console.error(error);
                 await interaction.reply({ content: 'Der var en fejl!', ephemeral: true });
