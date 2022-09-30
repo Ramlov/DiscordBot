@@ -10,6 +10,8 @@ module.exports = {
             new SelectMenuBuilder()
                 .setCustomId('select')
                 .setPlaceholder('Ingen gruppe valgt')
+                .setMinValues(0)
+                .setMaxValues(1)
                 .addOptions(
                     {
                         label: 'Gruppe 1',
@@ -63,4 +65,3 @@ module.exports = {
           })
     }
     }
-
