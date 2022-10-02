@@ -61,7 +61,7 @@ module.exports = {
                     
                 }
                 content = ' '
-                for(let i = 0; i < roles.length; i++){
+                for(let i = 0; i < config.roles.length; i++){
                     if (interaction.member.roles.cache.has(config.roles[i])){
                         await interaction.member.roles.remove(config.roles[i])
                     }
