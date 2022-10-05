@@ -53,6 +53,11 @@ module.exports = {
             const { customId, values} = interaction
             if(customId === 'select'){
                 if (values.length == 0){
+                    for(let i = 0; i < config.roles.length; i++){
+                        if (interaction.member.roles.cache.has(config.roles[i])){
+                            await interaction.member.roles.remove(config.roles[i])
+                        }
+                    }
                     interaction.reply({
                         content: 'Du kan nu interagere med valgmenuen igen!',
                         ephemeral: true
