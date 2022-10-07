@@ -10,5 +10,5 @@ VH Commands:
 /voice def @user - Defens the user
 /voice strict @role - Stricts a voice channel to a specific role(s)
 /voice transfer @user - Transfer the voice channel to a new user (User has to accept this transfer also)
-
+/voice findChannel - Finds your voice channel, if it exists and then moves you into it.
 

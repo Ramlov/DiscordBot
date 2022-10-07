@@ -1,5 +1,4 @@
 const {EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
-const interactionCreate = require('../../events/interactionCreate');
 const config = require('../../config.json');
 module.exports = {
     data: new SlashCommandBuilder()
@@ -55,17 +54,15 @@ module.exports = {
                 if (values.length == 0){
                     for(let i = 0; i < config.roles.length; i++){
                         if (interaction.member.roles.cache.has(config.roles[i])){
+                            interaction.reply({
+                                content: 'Du har fjernet <@&'+config.roles[i]+'>',
+                                ephemeral: true
+                              })
                             await interaction.member.roles.remove(config.roles[i])
                         }
                     }
-                    interaction.reply({
-                        content: 'Du kan nu interagere med valgmenuen igen!',
-                        ephemeral: true
-                      })
                     return;
-                    
                 }
-                content = ' '
                 for(let i = 0; i < config.roles.length; i++){
                     if (interaction.member.roles.cache.has(config.roles[i])){
                         await interaction.member.roles.remove(config.roles[i])

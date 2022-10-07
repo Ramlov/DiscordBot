@@ -8,17 +8,17 @@ module.exports = {
     name: 'voiceStateUpdate',
     async run(oldState, newState) {
         try {
-            if (newState.channel.id == null) return;
             if(newState.channel.id == config.VH.jtc.id) {
                 var data = fs.readFileSync("./config.json")
                 var parsedData = JSON.parse(data)
 
                 // Check if user already has a voice channel
                 for(let i = 0; i< parsedData['VH']['channels'].length; i++) {
-                    if (parsedData['VH']['channels'][i]['owner_id'] == newState.guild.ownerId){ // user already has an active voice channel
+                    if (parsedData['VH']['channels'][i]['owner_id'] == newState.id){ // user already has an active voice channel
+                        console.log(parsedData['VH']['channels'][i]['channel_id'])
                         //newState.disconnect(['An active VC of yours, has been located.']) // disconnect the user
                         newState.setChannel(parsedData['VH']['channels'][i]['channel_id']) // move to users channel
-                        newState.member.send('Din spasser. Du har allerede en fucking kanal. Jeg har derfor flyttet dig hen til din nuværende kanal.')
+                        //newState.member.send('Din spasser. Du har allerede en fucking kanal. Jeg har derfor flyttet dig hen til din nuværende kanal.')
                         return
                     }
                 }
@@ -33,7 +33,7 @@ module.exports = {
                     // Create channel object
                     var obj = {
                         "channel_id": value.id,
-                        "owner_id": value.guild.ownerId,
+                        "owner_id": newState.member.user.id,
                         "parent_id": value.parentId,
                         "guild_id": value.guildId,
                         "private_perms": []
@@ -50,6 +50,6 @@ module.exports = {
 
                 });
             }
-        } catch(err) {}
+        } catch(err) {console.log(err)}
     }
 }
