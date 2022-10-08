@@ -1,9 +1,9 @@
 
 #
 /voice commands:
-/*  subcommandHandler */
+#DONE/*  subcommandHandler */
 #DONE/voice perm @user - Gives the @user perms to edit the channel
-/voice unperm @user - Removes the @user perms from the channel
+#DONE/voice unperm @user - Removes the @user perms from the channel
 /voice claim - If the owner has left the channel, then you can claim the channel
 /voice limit "1-50" - Limit the channel 
 /voice delete <channel_id> - Deletes the channel

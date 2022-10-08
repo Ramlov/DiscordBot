@@ -5,6 +5,10 @@ const fs = require('fs')
 var rename = require('./subcommands/rename.js')
 var perms = require('./subcommands/perms.js')
 var removeperms = require('./subcommands/removeperms.js')
+var del = require('./subcommands/delete.js')
+var claim = require('./subcommands/claim.js')
+var limit = require('./subcommands/limit.js')
+var parent = require('./subcommands/parent.js')
 
 // ES6 Syntax
 const renameSubCommand = subCommand => subCommand
@@ -19,6 +23,20 @@ const removepermSubCommand = subCommand => subCommand
     .setName('removeperm')
     .setDescription('Removes permissions from user')
     .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true));
+const delSubCommand = subCommand => subCommand
+    .setName('delete')
+    .setDescription('Deletes the channel')
+const claimSubCommand = subCommand => subCommand
+    .setName('claim')
+    .setDescription('Claims the current channel, you\'re connected to')
+const limitSubCommand = subCommand => subCommand
+    .setName('limit')
+    .setDescription('Limits the channel user size')
+const parentSubCommand = subCommand => subCommand
+    .setName('parent')
+    .setDescription('Change the parent channel')
+    .addStringOption(option => option.setName('parent').setDescription('ID of the parent').setRequired(true));
+
 
 
 // VH = Voice Helper (shittier version of Voice Master - who doesn't like that!)
@@ -28,7 +46,11 @@ module.exports = {
         .setDescription('Voice help command')
         .addSubcommand(renameSubCommand)
         .addSubcommand(permSubCommand)
-        .addSubcommand(removepermSubCommand),
+        .addSubcommand(removepermSubCommand)
+        .addSubcommand(delSubCommand)
+        .addSubcommand(claimSubCommand)
+        .addSubcommand(limitSubCommand)
+        .addSubcommand(parentSubCommand),
     async slashRun(interaction, subcommand) {
 
         // Check if user is connected to a VC
@@ -51,6 +73,18 @@ module.exports = {
                 break
             case 'removeperm':
                 await removeperms(subcommand, config)
+                break
+            case 'delete':
+                await del(subcommand, config)
+                break
+            case 'claim':
+                await claim(subcommand, config)
+                break
+            case 'limit':
+                await limit(subcommand, config)
+                break
+            case 'parent':
+                await parent(subcommand, config)
                 break
         }
     }

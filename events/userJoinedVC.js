@@ -1,12 +1,12 @@
 const { ChannelType } = require('discord.js');
 const { joinVoiceChannel } = require('@discordjs/voice') //npm install @discordjs/voice
-const config = require('../config.json');
 const fs = require('fs')
 
 
 module.exports = {
     name: 'voiceStateUpdate',
     async run(oldState, newState) {
+        var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
         try {
             if(newState.channel.id == config.VH.jtc.id) {
                 var data = fs.readFileSync("./config.json")
