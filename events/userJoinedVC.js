@@ -15,7 +15,7 @@ module.exports = {
                 // Check if user already has a voice channel
                 for(let i = 0; i< parsedData['VH']['channels'].length; i++) {
                     if (parsedData['VH']['channels'][i]['owner_id'] == newState.id){ // user already has an active voice channel
-                        console.log(parsedData['VH']['channels'][i]['channel_id'])
+
                         //newState.disconnect(['An active VC of yours, has been located.']) // disconnect the user
                         newState.setChannel(parsedData['VH']['channels'][i]['channel_id']) // move to users channel
                         //newState.member.send('Din spasser. Du har allerede en fucking kanal. Jeg har derfor flyttet dig hen til din nuværende kanal.')
@@ -50,6 +50,6 @@ module.exports = {
 
                 });
             }
-        } catch(err) {console.log(err)}
+        } catch(err) {}
     }
 }
