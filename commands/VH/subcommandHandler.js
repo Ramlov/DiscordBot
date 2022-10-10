@@ -8,7 +8,6 @@ var removeperms = require('./subcommands/removePerms.js')
 var del = require('./subcommands/delete.js')
 var claim = require('./subcommands/claim.js')
 var limit = require('./subcommands/limit.js')
-var parent = require('./subcommands/parent.js')
 
 // ES6 Syntax
 const renameSubCommand = subCommand => subCommand
@@ -28,14 +27,11 @@ const delSubCommand = subCommand => subCommand
     .setDescription('Deletes the channel')
 const claimSubCommand = subCommand => subCommand
     .setName('claim')
-    .setDescription('Claims the current channel, you\'re connected to')
+    .setDescription('Claims the current channel, if the initiated owner has left')
 const limitSubCommand = subCommand => subCommand
     .setName('limit')
     .setDescription('Limits the channel user size')
-const parentSubCommand = subCommand => subCommand
-    .setName('parent')
-    .setDescription('Change the parent channel')
-    .addStringOption(option => option.setName('parent').setDescription('ID of the parent').setRequired(true));
+    .addStringOption(option => option.setName('userlimit').setDescription('Channel user limit').setRequired(true));
 
 
 
@@ -49,10 +45,8 @@ module.exports = {
         .addSubcommand(removepermSubCommand)
         .addSubcommand(delSubCommand)
         .addSubcommand(claimSubCommand)
-        .addSubcommand(limitSubCommand)
-        .addSubcommand(parentSubCommand),
+        .addSubcommand(limitSubCommand),
     async slashRun(interaction, subcommand) {
-
         // Check if user is connected to a VC
         if(subcommand.member.voice.channel === null){
             await subcommand.reply({
@@ -82,9 +76,6 @@ module.exports = {
                 break
             case 'limit':
                 await limit(subcommand, config)
-                break
-            case 'parent':
-                await parent(subcommand, config)
                 break
         }
     }
