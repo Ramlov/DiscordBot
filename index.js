@@ -1,6 +1,6 @@
 const config = require('./config.json')
 const fs = require("fs");
-const { Client, GatewayIntentBits, Partials, Collection, ActivityType} = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, ActivityType, Guild} = require('discord.js');
 
 const client = new Client({
     intents: [
@@ -18,7 +18,7 @@ const client = new Client({
     partials: [Partials.User, Partials.Channel, Partials.GuildMember, Partials.Message, Partials.Reaction],
     presence: {
         activities: [{
-            name: `Noobs`,
+            name: `benjamin`,
             type: ActivityType.Watching
         }]
     }
