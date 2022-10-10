@@ -1,4 +1,4 @@
-const {EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
+const {EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder, GuildMemberManager, PermissionsBitField } = require('discord.js');
 const config = require('../../config.json');
 module.exports = {
     data: new SlashCommandBuilder()
@@ -63,11 +63,13 @@ module.exports = {
                     }
                     return;
                 }
+
                 for(let i = 0; i < config.roles.length; i++){
                     if (interaction.member.roles.cache.has(config.roles[i])){
                         await interaction.member.roles.remove(config.roles[i])
                     }
                 }
+
                 await interaction.member.roles.add(values[0])
                 content = 'Du har nu fået <@&'+values[0]+'>'
                 await interaction.reply({

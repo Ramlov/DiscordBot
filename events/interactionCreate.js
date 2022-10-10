@@ -6,7 +6,7 @@ module.exports = {
     name: 'interactionCreate',
     async run(interaction, client) {
         if ((interaction.type === InteractionType.ApplicationCommand)) {
-            let subCommand = null
+            let subCommand = interaction
             if (interaction.type < 3) subCommand = interaction.options.getSubcommand(false)
             const command = client.slashCommands.get(interaction.commandName);
 
