@@ -8,6 +8,8 @@ var removeperms = require('./subcommands/removePerms.js')
 var del = require('./subcommands/delete.js')
 var claim = require('./subcommands/claim.js')
 var limit = require('./subcommands/limit.js')
+var add = require('./subcommands/add.js');
+const remove = require('./subcommands/remove');
 
 // ES6 Syntax
 const renameSubCommand = subCommand => subCommand
@@ -32,6 +34,15 @@ const limitSubCommand = subCommand => subCommand
     .setName('limit')
     .setDescription('Limits the channel user size')
     .addStringOption(option => option.setName('userlimit').setDescription('Channel user limit').setRequired(true));
+const addSubCommand = subCommand => subCommand
+    .setName('add')
+    .setDescription('Adds \'View Channel\' permissions to user')
+    .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true));
+const removeSubCommand = subCommand => subCommand
+    .setName('remove')
+    .setDescription('Removes \'View Channel\' permissions from user')
+    .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true));
+
 
 
 
@@ -45,7 +56,10 @@ module.exports = {
         .addSubcommand(removepermSubCommand)
         .addSubcommand(delSubCommand)
         .addSubcommand(claimSubCommand)
-        .addSubcommand(limitSubCommand),
+        .addSubcommand(limitSubCommand)
+        .addSubcommand(addSubCommand)
+        .addSubcommand(removeSubCommand),
+
     async slashRun(interaction, subcommand) {
         // Check if user is connected to a VC
         if(subcommand.member.voice.channel === null){
@@ -76,6 +90,12 @@ module.exports = {
                 break
             case 'limit':
                 await limit(subcommand, config)
+                break
+            case 'add':
+                await add(subcommand, config)
+                break
+            case 'remove':
+                await remove(subcommand, config)
                 break
         }
     }

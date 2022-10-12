@@ -28,9 +28,6 @@ module.exports = {
               })
             return;
         }
-
-        // Maybe we should limit the command to only specific users
-
         const jtc = interaction.guild.channels.create({
             name: 'Join To Create',
             type: ChannelType.GuildVoice,

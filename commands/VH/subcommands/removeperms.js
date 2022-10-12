@@ -47,7 +47,7 @@ var removeperms = async function(interaction, config){
         // Check if the target doesnt have special permissions
         if(!config.VH.channels[index].private_perms.includes(target.id)){
             await interaction.reply({
-                content: `\`\`${target.username}\`\` har alligevel ikke permissions til \`\`${interaction.member.voice.channel.name}\`\``,
+                content: `\`\`${target.username}\`\` har alligevel ikke permissions til <#${interaction.member.voice.channel.id}>`,
                 ephemeral: true
               })
             return
@@ -65,8 +65,11 @@ var removeperms = async function(interaction, config){
             }
         });
 
+        // Add user to voice channel permissions "View Channel"
+        interaction.member.voice.channel.permissionOverwrites.edit(target.id, { ViewChannel: false })
+
         await interaction.reply({
-            content: `\`\`${target.username}\`\` har nu ingen permissions til \`\`${interaction.member.voice.channel.name}\`\``,
+            content: `\`\`${target.username}\`\` har nu ingen permissions til <#${interaction.member.voice.channel.id}>`,
             ephemeral: true
           })
         

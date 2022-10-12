@@ -1,4 +1,4 @@
-const { ChannelType } = require('discord.js');
+const { ChannelType, PermissionsBitField } = require('discord.js');
 const { joinVoiceChannel } = require('@discordjs/voice') //npm install @discordjs/voice
 const fs = require('fs')
 
@@ -8,6 +8,7 @@ module.exports = {
     async run(oldState, newState) {
         var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
         try {
+            if(newState.channel === null) {}
             if(newState.channel.id == config.VH.jtc.id) {
                 var data = fs.readFileSync("./config.json")
                 var parsedData = JSON.parse(data)
@@ -22,11 +23,22 @@ module.exports = {
                         return
                     }
                 }
+
                 // Create voice channel
                 const voiceChannel = newState.guild.channels.create({
                     name: newState.member.user.username + '\'s VC',
                     type: ChannelType.GuildVoice,
-                    parent: config.VH.parent
+                    parent: config.VH.parent,
+                    permissionOverwrites: [
+                        {
+                            id: newState.guild.id,
+                            deny: [PermissionsBitField.Flags.ViewChannel]
+                        },
+                        {
+                            id: newState.member.user.id,
+                            allow: [PermissionsBitField.Flags.ViewChannel]
+                        }
+                    ]
                 })
                 await Promise.resolve(voiceChannel).then(async(value) => {
 
@@ -50,6 +62,8 @@ module.exports = {
 
                 });
             }
-        } catch(err) {}
+        } catch(err) {
+            console.log(err)
+        }
     }
 }

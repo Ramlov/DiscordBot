@@ -11,16 +11,8 @@
   ],
   "VH": {
     "parent": "1008730035798159471",
-    "editable": null,
     "jtc": { "created": null, "id": null, "editable": null },
     "channels": [
-      {
-        "channel_id": "1029068502117646356",
-        "owner_id": "741971906118287461",
-        "parent_id": "999380500030431373",
-        "guild_id": "999380499527118898",
-        "private_perms": []
-      }
     ]
   }
 }

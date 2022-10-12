@@ -2,7 +2,7 @@ const { EmbedBuilder,  SlashCommandBuilder, ChannelType, PermissionsBitField, Sl
 const fs = require('fs');
 const interactionCreate = require('../../../events/interactionCreate');
 
-var perms = async function(interaction, config){
+var remove = async function(interaction, config){
     user = interaction.user.id
     channel_id = interaction.member.voice.channelId
 
@@ -23,7 +23,7 @@ var perms = async function(interaction, config){
     }
 
     // Check if user owns the channel, or has admin permission
-    if(config.VH.channels[index].owner_id == user || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)){
+    if(config.VH.channels[index].owner_id == user || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator || config.VH.channels[index].private_perms.includes(user))){
 
         // Check if target is real
         const target = interaction.options.getUser('target')
@@ -39,36 +39,17 @@ var perms = async function(interaction, config){
         // Check if target is the owner_id
         if(target.id == config.VH.channels[index].owner_id){
             await interaction.reply({
-                content: `\`\`${target.username}\`\` har allerede permissions til <#${interaction.member.voice.channel.id}>`,
+                content: `Du kan ikke fjerne dig selv.`,
                 ephemeral: true
               })
             return
         }
 
-        // Check if the targer user already has special permissions
-        if(config.VH.channels[index].private_perms.includes(target.id)){
-            await interaction.reply({
-                content: ``,
-                ephemeral: true
-              })
-            return
-        }
-
-        // Add the target to the private_perms list
-        var configs = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-        configs.VH.channels[index].private_perms.push(target.id)
-        const json = JSON.stringify(configs)
-        fs.writeFile('config.json', json, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-
-        // Add user to voice channel permissions "View Channel"
-        interaction.member.voice.channel.permissionOverwrites.edit(target.id, { ViewChannel: true})
+        // Remove user from voice channel permissions "View Channel"
+        interaction.member.voice.channel.permissionOverwrites.edit(target.id, { ViewChannel: false})
 
         await interaction.reply({
-            content: `\`\`${target.username}\`\` har nu permissions til <#${interaction.member.voice.channel.id}>`,
+            content: `\`\`${target.username}\`\` kan nu ikke se <#${interaction.member.voice.channel.id}>`,
             ephemeral: true
           })
         
@@ -79,4 +60,4 @@ var perms = async function(interaction, config){
           })
     }
 }
-module.exports = perms
+module.exports = remove
