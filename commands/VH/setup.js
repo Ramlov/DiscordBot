@@ -19,8 +19,14 @@ module.exports = {
                         .addChoices(
                             { name: 'True', value: 'true'},
                             { name: 'False', value: 'false'}
-                        ))),
+                        ))
+                        .addStringOption(option =>
+                            option 
+                                .setName('parent')
+                                .setDescription('Please give the category/parent id you want the channel to be created under.')
+                                .setRequired(true))),
     async slashRun(client, interaction, guild) {
+        var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
         if (config.VH.jtc.created == true) {
             await interaction.reply({
                 content: 'Jeg kan se, at JTC er allerede blevet lavet.',
@@ -28,10 +34,30 @@ module.exports = {
               })
             return;
         }
+
+        // Check if category ID exists
+        category_id = interaction.options.getString('parent')
+        if(interaction.guild.channels.resolve(category_id) === null){
+            await interaction.reply({
+                content: 'Jeg kan ikke se <#'+category_id+'>. Prøv igen',
+                ephemeral: true
+              })
+            return;
+        }
+        // Append category ID to config parent ID
+        var configs = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+        configs.VH.parent = category_id
+        const json = JSON.stringify(configs)
+            await fs.writeFile('config.json', json, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        // Create the Join To Create channel
         const jtc = interaction.guild.channels.create({
             name: 'Join To Create',
             type: ChannelType.GuildVoice,
-            parent: config.VH.parent
+            parent: category_id
         })
 
         // Resolve the returned promise call

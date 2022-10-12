@@ -61,6 +61,16 @@ module.exports = {
         .addSubcommand(removeSubCommand),
 
     async slashRun(interaction, subcommand) {
+        var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+        // Check if 'JTC' channel is available
+        if (config.VH.jtc.created != true) {
+            await interaction.reply({
+                content: '\'\'/setup\'\' er ikke blevet lavet endnu.',
+                ephemeral: true
+              })
+            return;
+        }
         // Check if user is connected to a VC
         if(subcommand.member.voice.channel === null){
             await subcommand.reply({
@@ -70,8 +80,6 @@ module.exports = {
             return
         }
 
-
-        var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
         switch(subcommand.options.getSubcommand(false)){
             case 'rename':
                 await rename(subcommand, config)
