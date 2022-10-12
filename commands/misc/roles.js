@@ -63,6 +63,11 @@ module.exports = {
                     }
                     return;
                 }
+                content = ' '
+                for(let i = 0; i < roles.length; i++){
+                    await interaction.member.roles.remove(roles[i])
+                    return;
+                }
 
                 for(let i = 0; i < config.roles.length; i++){
                     if (interaction.member.roles.cache.has(config.roles[i])){
