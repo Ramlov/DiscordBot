@@ -36,12 +36,14 @@ const limitSubCommand = subCommand => subCommand
     .addStringOption(option => option.setName('userlimit').setDescription('Channel user limit').setRequired(true));
 const addSubCommand = subCommand => subCommand
     .setName('add')
-    .setDescription('Adds \'View Channel\' permissions to user')
-    .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true));
+    .setDescription('Adds \'View Channel\' permissions')
+    .addUserOption(option => option.setName('user').setDescription('If you want to add a user').setRequired(false))
+    .addRoleOption(option => option.setName('role').setDescription('If you want to add a role').setRequired(false))
 const removeSubCommand = subCommand => subCommand
     .setName('remove')
     .setDescription('Removes \'View Channel\' permissions from user')
-    .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true));
+    .addUserOption(option => option.setName('user').setDescription('If you want to remove a user').setRequired(false))
+    .addRoleOption(option => option.setName('role').setDescription('If you want to remove a role').setRequired(false))
 
 
 

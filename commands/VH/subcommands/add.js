@@ -24,11 +24,16 @@ var add = async function(interaction, config){
 
     // Check if user owns the channel, or has admin permission
     if(config.VH.channels[index].owner_id == user || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator || config.VH.channels[index].private_perms.includes(user))){
+        // Check if interaction.options role was selected or user was selected
+        let target = interaction.options.getUser('user')
+        let content = 0
+        if(target == null){
+            target = interaction.options.getRole('role')
+            content = `<@&${target.id}> kan nu se <#${interaction.member.voice.channel.id}>`
+        } else content = `<@${target.id}> kan nu se <#${interaction.member.voice.channel.id}> (folk der er blevet addet fra \`\`/voice add\`\` kan stadig se!)`
+        
 
-        // Check if target is real
-        const target = interaction.options.getUser('target')
-
-        if(!target || target.bot == true){
+        if(!target || target.bot == true || target == null){
             await interaction.reply({
                 content: `Hvem fuck er det?`,
                 ephemeral: true
@@ -39,7 +44,7 @@ var add = async function(interaction, config){
         // Check if target is the owner_id
         if(target.id == config.VH.channels[index].owner_id){
             await interaction.reply({
-                content: `Du kan ikke adde dig selv.`,
+                content: `Du kan ikke bruge \`\`/voice add\`\` på dig selv!`,
                 ephemeral: true
               })
             return
@@ -54,11 +59,21 @@ var add = async function(interaction, config){
             return
         }
 
-        // Add user to voice channel permissions "View Channel"
+        // Add user/role to voice channel permissions "View Channel"
         interaction.member.voice.channel.permissionOverwrites.edit(target.id, { ViewChannel: true})
 
+        // Check if were adding a role (We want to neutral all permissions for users in a role)
+        if(interaction.options.getRole('role') != null){
+            // Get each user from the role and set there permissions to neutral!
+            users = await interaction.guild.roles.cache.get(target.id).members.map(m=>m.user.id)
+            for(let i = 0; i < users.length; i++) {
+                // Set the users permissions to neutral
+                interaction.member.voice.channel.permissionOverwrites.edit(users[i], { ViewChannel: null })
+            }
+        }
+
         await interaction.reply({
-            content: `\`\`${target.username}\`\` kan nu se <#${interaction.member.voice.channel.id}>`,
+            content: content,
             ephemeral: true
           })
         
