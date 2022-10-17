@@ -64,8 +64,8 @@ module.exports = {
                     return;
                 }
                 content = ' '
-                for(let i = 0; i < roles.length; i++){
-                    await interaction.member.roles.remove(roles[i])
+                for(let i = 0; i < config.roles.length; i++){
+                    await interaction.member.roles.remove(config.roles[i])
                     return;
                 }
 
