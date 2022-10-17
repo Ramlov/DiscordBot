@@ -4,7 +4,7 @@ const fs = require('fs')
 
 var rename = require('./subcommands/rename.js')
 var perms = require('./subcommands/perms.js')
-var removeperms = require('./subcommands/removePerms.js')
+var removeperms = require('./subcommands/removeperms.js')
 var del = require('./subcommands/delete.js')
 var claim = require('./subcommands/claim.js')
 var limit = require('./subcommands/limit.js')
